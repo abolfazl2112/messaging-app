@@ -1,0 +1,93 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          ccv:
+            read-timeout: 10000
+            logger-level: full
+            default-query-parameters:
+              query: queryValue
+            default-request-headers:
+              header: headerValue
+#            connectTimeout: 5000
+#            readTimeout: 5000
+#            loggerLevel: full
+#            defaultQueryParameters:
+#              query: queryValue
+#            defaultRequestHeaders:
+#              header: headerValue
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+    virtual-host: /
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: false # we use gulp + BrowserSync for livereload
+server:
+  port: 3033
+
+rabbitmq:
+  queue:
+    name: queue_demo
+    json:
+      name: json_queue_demo
+    delay:
+      name: delay_queue_demo
+  exchange:
+    name: exchange_demo
+    delay:
+      name: custom_exchange_delay
+  routing:
+    key: routing_key_demo
+    json:
+      key: routing_json_key_demo
+    delay:
+      key: routing_delay_key_demo
+
+alphaport:
+  http:
+    version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+#
+# ===================================================================
+logging:
+  level:
+    nl.alphaport.messagingapp.client.ccv.CCVFeignClient: DEBUG
+  file:
+    name: log/messagingApp.log
+#  pattern:
+#    console: "%clr(%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - ) %msg%n"
+#    file: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+        connectTimeout: 5000
+        readTimeout: 5000
+      ccv:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: full
+
+application:
